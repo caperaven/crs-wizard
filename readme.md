@@ -56,9 +56,10 @@ The styling is fairly simple and tries not to assume too much allowing you freed
 Please note the following.
 
 1. The styles are prefixed in the selector with the component name to prevent bleeding. e.g. "crs-wizard .toolbar"
-1. There are five css variables you can set.
-1.1 --c-header // header color
-1.2 --c-body // body color
-1.3 --c-footer // footer color
-1.4 --width // the width of crs-wizard, defaults to 100%
-1.5 --height // the height of crs-wizard, defaults to 100%
+1. There are five css variables you can set.  
+2.1 --c-header // header color  
+2.2 --c-body // body color  
+2.3 --c-footer // footer color  
+2.4 --width // the width of crs-wizard, defaults to 100%  
+2.5 --height // the height of crs-wizard, defaults to 100%  
+

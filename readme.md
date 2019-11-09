@@ -1,42 +1,64 @@
-# CRS Starter
+# CRS Wizard
 
 ## Introduction
 
-This is a small template project to help with library development.
-It includes all the required building blocks already set up ready to use.
-There are a couple of conventions to consider.
+This is a small webcomponent that allows you some wizard functionality.
 
-1. Source code is in the "src folder"
-1. Tests have the same name as the src file but also includes ".test" at the end of the name. For example "my-class.test.js"
-1. index.js found in the src folder is the bundling entry and exports the library api using the export function
+## Usage
 
-## Standard features included
+```html 
+<crs-wizard>
+    <div caption="Page 1" data-id="0" hidden>
+        Page 1
+    </div>
 
-1. Jest tests configured for ES6
-1. Rollup bundling with minification using Tensor
-1. Build publish folder
- 
-## Scripts
+    <div caption="Page 2" data-id="1" hidden>
+        Page 2
+    </div>
 
-The package.json file has two scripts defined for common use.
+    <div caption="Page 3" data-id="2" hidden>
+        Page 3
+    </div>
 
-1. Test
-1. Bundle
-1. Publish
+    <div caption="Page 4" data-id="3" hidden>
+        Page 4
+    </div>
+</crs-wizard>
 
-## Tests
+<script type="module" src="src/crs-wizard.js"></script>
+```
 
-Jest is set up to allow es6 using Babel.  
-It also includes code completion.
+The pages are the child elements in the root of the component.  
+Each child must have three attributes:  
 
-## Publish
+1. caption // what is the heading you want to show when that page is showing
+1. data-id // what is the unique id of that page used for navigation. This must be a number value.
+1. hidden // hide this page until it is used
 
-Use the publish node script to bundle your files and copy them to the publish folder.  
-The following files will automatically be copied to the publish folder:
+The natural progression would be from 0 to N.
 
-1. All your files located in the dist folder
-1. package.json file with the version number updated
-1. readme.md
+There are times when you don't want to navigate in a given order but have better control over what the next page must be.  
+You can do this by assigning the function "getNextId" to the element.
 
-If you want other files to be included, update "distribute" function in the /build/publish.js file.
+```html
+    <script>
+        const wizard = document.querySelector("crs-wizard");
+        wizard.getNextId = (currentId) => {
+            if (currentId == 0) return 2;
+            if (currentId == 2) return 1;
+            if (currentId == 1) return 3;
+            if (currentId == 3) return 0;
+        }
+    </script>
+```
 
+The styling is fairly simple and tries not to assume too much allowing you freedom on how you want to stile it.  
+Please note the following.
+
+1. The styles are prefixed in the selector with the component name to prevent bleeding. e.g. "crs-wizard .toolbar"
+1. There are five css variables you can set.
+1.1 --c-header // header color
+1.2 --c-body // body color
+1.3 --c-footer // footer color
+1.4 --width // the width of crs-wizard, defaults to 100%
+1.5 --height // the height of crs-wizard, defaults to 100%

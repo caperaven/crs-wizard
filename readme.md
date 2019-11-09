@@ -94,3 +94,33 @@ document.querySelector("button").addEventListener("click", () => {
     wizard.showAsDialog(320, 200, getNextId);
 });
 ```
+
+## Background as a dialog
+The component does not try and assume too much about the environment that it is being used in.  
+Because of this it does not by default add a back layer like some modal designs use.
+You can however easily add this if this is something you want.
+
+```js
+document.querySelector("button").addEventListener("click", () => {
+    const background = document.createElement("div");
+    background.style.position = "fixed";
+    background.style.top = "0";
+    background.style.left = "0";
+    background.style.width = "100vw";
+    background.style.height = "100vh";
+    background.style.background = "black";
+    background.style.opacity = "0.5";
+    background.style.zIndex = "10";
+    document.documentElement.appendChild(background);
+
+    const fn = () => {
+        console.log("done");
+        wizard.removeEventListener("done", fn);
+        document.documentElement.removeChild(background);
+    };
+
+    wizard.addEventListener("done", fn);
+    wizard.showAsDialog(320, 200, getNextId);
+    wizard.style.zIndex = "100";
+});
+```

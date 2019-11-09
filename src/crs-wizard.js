@@ -36,7 +36,6 @@ class Wizard extends HTMLElement {
     }
 
     gotoView(id) {
-        //todo: add animation hooks
         const target = this._body.querySelector(`[data-id="${id}"]`);
         if (target == null) return false;
 
@@ -55,6 +54,9 @@ class Wizard extends HTMLElement {
 
     _next() {
         const currentId = this._currentId || 0;
+
+        if (this.allowNext != null && this.allowNext(currentId) == false) return;
+
         const nextId = this.getNextId != null ? this.getNextId(currentId) : currentId + 1;
 
         if (nextId == -1 && this._isDialog == true) {
@@ -72,6 +74,8 @@ class Wizard extends HTMLElement {
     }
 
     _previous() {
+        if (this.allowPrevious != null && this.allowPrevious(this._currentId) == false) return;
+
         if (this._previousId.length == 0) return;
         const nextId = this._previousId.pop();
         this.gotoView(nextId);

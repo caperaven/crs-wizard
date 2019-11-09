@@ -68,6 +68,8 @@
             wizard.addEventListener("done", fn);
             wizard.showAsDialog(320, 200, getNextId);
             wizard.style.zIndex = "100";
+            wizard.allowNext = (currentId) => currentId == 2 ? false : true;
+            wizard.allowPrevious = (currentId) => currentId == 2 ? false : true;
         });
     </script>
 </body>

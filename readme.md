@@ -124,3 +124,19 @@ document.querySelector("button").addEventListener("click", () => {
     wizard.style.zIndex = "100";
 });
 ```
+
+## Prevent navigation
+There are cases when you don't want the user to move forward or backward until they are done with a task.
+You can prevent navigation by adding these functions:
+
+1. allowNext
+1. allowPrevious
+
+```js
+wizard.allowNext = (currentId) => currentId == 2 ? false : true;
+wizard.allowPrevious = (currentId) => currentId == 2 ? false : true;
+```
+
+If they are not there, the wizard will assume it can just navigate unhindered.  
+Technically the wizard will assume navigation unless you provide a false value from the above functions.
+

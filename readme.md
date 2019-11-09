@@ -63,3 +63,34 @@ Please note the following.
 2.4 --width // the width of crs-wizard, defaults to 100%  
 2.5 --height // the height of crs-wizard, defaults to 100%  
 
+## Dialog
+If you don't want to use the wizard right away but rather as a dialog add the hidden attribute on the element.
+
+```html
+<crs-wizard hidden>
+```
+
+When you are ready to show it as a dialog you can call the element's "showAsDialog" function.  
+This function takes the following parameters:
+
+1. width numeric value to be used in pixel size
+1. height numeric value to be used in pixel size
+1. getNextId: optionally the function to call if you want to get the next Id.
+
+The getNextId is useful to enable custom close conditions.  
+If the component is used as a dialog and the nextId is -1 the dialog will close.
+
+## Done
+When the wizard navigation is complete it raises a "done" event.
+
+```js
+document.querySelector("button").addEventListener("click", () => {
+    const fn = () => {
+        console.log("done");
+        wizard.removeEventListener("done", fn);
+    };
+
+    wizard.addEventListener("done", fn);
+    wizard.showAsDialog(320, 200, getNextId);
+});
+```

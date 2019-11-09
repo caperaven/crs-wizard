@@ -60,10 +60,14 @@ class Wizard extends HTMLElement {
         if (nextId == -1 && this._isDialog == true) {
             delete this._isDialog;
             this.closeDialog();
+            this.dispatchEvent(new CustomEvent("done"));
         }
 
         if (this.gotoView(nextId) == true) {
             this._previousId.push(currentId);
+        }
+        else {
+            this.dispatchEvent(new CustomEvent("done"));
         }
     }
 

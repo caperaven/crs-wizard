@@ -1,7 +1,7 @@
 {
-    "name": "",
-    "version": "0.0.6",
-    "description": "",
+    "name": "crs-wizard",
+    "version": "0.0.9",
+    "description": "Simple webcomponent for wizard functionality",
     "main": "index.js",
     "directories": {
         "test": "test"

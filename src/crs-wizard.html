@@ -1,0 +1,44 @@
+<style>
+    crs-wizard {
+        --c-header: #dadada;
+        --c-body: white;
+        --c-footer: #dadada;
+        --width: 100%;
+        --height: 100%;
+
+        display: grid;
+        grid-template-rows: 2rem 1fr 2rem;
+        width: var(--width);
+        height: var(--height);
+    }
+
+    crs-wizard h1 {
+        padding: 0 0 0 0.5rem;
+        margin: 0;
+        background: var(--c-header);
+        font-size: 1.5em;
+    }
+
+    crs-wizard .body {
+        background: var(--c-body);
+    }
+
+    crs-wizard .toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        background: var(--c-footer);
+        padding-right: 0.5rem;
+    }
+
+    crs-wizard .toolbar button {
+        width: 5rem;
+        margin-left: 0.5rem;
+    }
+</style>
+<h1>Heading</h1>
+<div class="body"></div>
+<div class="toolbar">
+    <button id="btnPrevious">Previous</button>
+    <button id="btnNext">Next</button>
+</div>

@@ -26,6 +26,7 @@ class Wizard extends HTMLElement {
         delete this._previousId;
         delete this._body;
         delete this._heading;
+        delete this.getNextId;
 
         this._btnNext.removeEventListener("click", this.nextHandler);
         this._btnPrevious.removeEventListener("click", this.previousHandler);
@@ -56,6 +57,11 @@ class Wizard extends HTMLElement {
         const currentId = this._currentId || 0;
         const nextId = this.getNextId != null ? this.getNextId(currentId) : currentId + 1;
 
+        if (nextId == -1 && this._isDialog == true) {
+            delete this._isDialog;
+            this.closeDialog();
+        }
+
         if (this.gotoView(nextId) == true) {
             this._previousId.push(currentId);
         }
@@ -65,6 +71,28 @@ class Wizard extends HTMLElement {
         if (this._previousId.length == 0) return;
         const nextId = this._previousId.pop();
         this.gotoView(nextId);
+    }
+
+    showAsDialog(width, height, getNextId) {
+        this._isDialog = true;
+        this.getNextId = getNextId;
+
+        width = width || 420;
+        height = height || 300;
+        this.style.position = "fixed";
+        this.style.left = `${(document.documentElement.offsetWidth / 2) - (width / 2)}px`;
+        this.style.top = `${(document.documentElement.offsetHeight / 2) - (height / 2)}px`;
+        this.style.width = `${width}px`;
+        this.style.height = `${height}px`;
+
+        this.removeAttribute("hidden");
+        this.gotoView(0);
+    }
+
+    closeDialog() {
+        delete this._isDialog;
+        this._previousId.length = 0;
+        this.setAttribute("hidden", "hidden");
     }
 }
 

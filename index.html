@@ -16,7 +16,9 @@
     }
 </style>
 <body>
-    <crs-wizard>
+    <button>Click Me</button>
+
+    <crs-wizard hidden>
         <div caption="Page 1" data-id="0" hidden>
             Page 1
         </div>
@@ -37,12 +39,15 @@
 
     <script>
         const wizard = document.querySelector("crs-wizard");
-        wizard.getNextId = (currentId) => {
+
+        const getNextId = (currentId) => {
             if (currentId == 0) return 2;
             if (currentId == 2) return 1;
             if (currentId == 1) return 3;
-            if (currentId == 3) return 0;
-        }
+            if (currentId == 3) return -1;
+        };
+
+        document.querySelector("button").addEventListener("click", () => wizard.showAsDialog(320, 200, getNextId));
     </script>
 </body>
 </html>

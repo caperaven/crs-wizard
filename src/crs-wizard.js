@@ -54,7 +54,8 @@ class Wizard extends HTMLElement {
 
     _next() {
         const currentId = this._currentId || 0;
-        const nextId = currentId + 1;
+        const nextId = this.getNextId != null ? this.getNextId(currentId) : currentId + 1;
+
         if (this.gotoView(nextId) == true) {
             this._previousId.push(currentId);
         }

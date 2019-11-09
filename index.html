@@ -34,5 +34,15 @@
         </div>
     </crs-wizard>
     <script type="module" src="src/crs-wizard.js"></script>
+
+    <script>
+        const wizard = document.querySelector("crs-wizard");
+        wizard.getNextId = (currentId) => {
+            if (currentId == 0) return 2;
+            if (currentId == 2) return 1;
+            if (currentId == 1) return 3;
+            if (currentId == 3) return 0;
+        }
+    </script>
 </body>
 </html>

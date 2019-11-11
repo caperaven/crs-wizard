@@ -1,45 +1,56 @@
 <style>
-    crs-wizard[hidden] { display: none !important; }
+    :host[hidden] { display: none !important; }
 
-    crs-wizard {
+    :host {
         --c-header: #dadada;
         --c-body: white;
         --c-footer: #dadada;
+        --c-border: silver;
         --width: 100%;
         --height: 100%;
+        --border-radius: 0;
+        --border-width: 1px;
 
         display: grid;
         grid-template-rows: 2rem 1fr 2rem;
         width: var(--width);
         height: var(--height);
+
+        border: var(--c-border) solid var(--border-width);
+        border-radius: var(--border-radius);
     }
 
-    crs-wizard h1 {
+    h1 {
         padding: 0 0 0 0.5rem;
         margin: 0;
         background: var(--c-header);
         font-size: 1.5em;
+        border-radius: var(--border-radius) var(--border-radius) 0 0;
     }
 
-    crs-wizard .body {
+    .body {
         background: var(--c-body);
     }
 
-    crs-wizard .toolbar {
+    .toolbar {
         display: flex;
         align-items: center;
         justify-content: flex-end;
         background: var(--c-footer);
         padding-right: 0.5rem;
+        border-radius: 0 0 var(--border-radius) var(--border-radius);
     }
 
-    crs-wizard .toolbar button {
+    .toolbar button {
         width: 5rem;
         margin-left: 0.5rem;
     }
 </style>
+
 <h1>Heading</h1>
-<div class="body"></div>
+<div class="body">
+    <slot></slot>
+</div>
 <div class="toolbar">
     <button id="btnPrevious">Previous</button>
     <button id="btnNext">Next</button>

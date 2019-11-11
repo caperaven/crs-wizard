@@ -7,6 +7,18 @@ class Wizard extends HTMLElement {
         this._body = newValue;
     }
 
+    get slotItems() {
+        if (this._slotItems == null) {
+            this._slotItems = this.body.children[0].assignedNodes().filter(item => item.nodeName == "DIV");
+        }
+
+        return this._slotItems;
+    }
+
+    set slotItems(newValue) {
+        this._slotItems = newValue;
+    }
+
     get heading() {
         return this.getProperty("heading", "h1");
     }
@@ -34,18 +46,18 @@ class Wizard extends HTMLElement {
     getProperty(property, query) {
         const field = `_${property}`;
         if (this[field] == null){
-            this[field] = this.querySelector(query);
+            this[field] = this._shadowRoot.querySelector(query);
         }
         return this[field];
     }
 
     async connectedCallback() {
         this._previousId = [];
+        this._shadowRoot = this.attachShadow({mode: 'open'});
 
-        const content = this.innerHTML;
-        this.innerHTML = await fetch(import.meta.url.replace(".js", ".html")).then(result => result.text());
-
-        this.body.innerHTML = content;
+        const template = document.createElement("template");
+        template.innerHTML = await fetch(import.meta.url.replace(".js", ".html")).then(result => result.text());
+        this._shadowRoot.appendChild(template.content.cloneNode(true));
 
         this.nextHandler = this._next.bind(this);
         this.previousHandler = this._previous.bind(this);
@@ -66,6 +78,7 @@ class Wizard extends HTMLElement {
 
         this.body = null;
         this.heading = null;
+        this.slotItems = null;
         delete this.getNextId;
 
         this.btnNext.removeEventListener("click", this.nextHandler);
@@ -79,7 +92,9 @@ class Wizard extends HTMLElement {
     }
 
     gotoView(id) {
-        const target = this.body.querySelector(`[data-id="${id}"]`);
+        const target = this.slotItems.find(item => item.getAttribute("data-id") == id);
+
+        //const target = this._shadowRoot.querySelector(`[data-id="${id}"]`);
         if (target == null) return false;
 
         if (this._currentPage != null) {

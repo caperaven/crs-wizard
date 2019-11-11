@@ -1,35 +1,75 @@
 class Wizard extends HTMLElement {
+    get body() {
+        return this.getProperty("body", ".body");
+    }
+
+    set body(newValue) {
+        this._body = newValue;
+    }
+
+    get heading() {
+        return this.getProperty("heading", "h1");
+    }
+
+    set heading(newValue) {
+        this._heading = newValue;
+    }
+
+    get btnNext() {
+        return this.getProperty("btnNext", "#btnNext");
+    }
+
+    set btnNext(newValue) {
+        this._btnNext = newValue;
+    }
+
+    get btnPrevious() {
+        return this.getProperty("btnPrevious", "#btnPrevious");
+    }
+
+    set btnPrevious(newValue) {
+        this._btnPrevious = newValue;
+    }
+
+    getProperty(property, query) {
+        const field = `_${property}`;
+        if (this[field] == null){
+            this[field] = this.querySelector(query);
+        }
+        return this[field];
+    }
+
     async connectedCallback() {
         this._previousId = [];
 
         const content = this.innerHTML;
         this.innerHTML = await fetch(import.meta.url.replace(".js", ".html")).then(result => result.text());
 
-        this._body = this.querySelector(".body");
-        this._heading = this.querySelector("h1");
-
-        this._btnNext = this.querySelector("#btnNext");
-        this._btnPrevious = this.querySelector("#btnPrevious");
-
-        this._body.innerHTML = content;
-
-        requestAnimationFrame(() => this.gotoView(0));
+        this.body.innerHTML = content;
 
         this.nextHandler = this._next.bind(this);
         this.previousHandler = this._previous.bind(this);
 
-        this._btnNext.addEventListener("click", this.nextHandler);
-        this._btnPrevious.addEventListener("click", this.previousHandler);
+        this.btnNext.addEventListener("click", this.nextHandler);
+        this.btnPrevious.addEventListener("click", this.previousHandler);
+
+        setTimeout(() => {
+            requestAnimationFrame(() => this.gotoView(0));
+        }, 0);
     }
 
     async disconnectedCallback() {
         delete this._previousId;
-        delete this._body;
-        delete this._heading;
+
+        this.body = null;
+        this.heading = null;
         delete this.getNextId;
 
-        this._btnNext.removeEventListener("click", this.nextHandler);
-        this._btnPrevious.removeEventListener("click", this.previousHandler);
+        this.btnNext.removeEventListener("click", this.nextHandler);
+        this.btnPrevious.removeEventListener("click", this.previousHandler);
+
+        this.btnNext = null;
+        this.btnPrevious = null;
 
         this.nextHandler = null;
         this.previousHandler = null;
@@ -46,7 +86,7 @@ class Wizard extends HTMLElement {
         this._currentPage = target;
 
         this._currentPage.removeAttribute("hidden");
-        this._heading.innerText = this._currentPage.getAttribute("caption") || "";
+        this.heading.innerText = this._currentPage.getAttribute("caption") || "";
 
         this._currentId = id;
         return true;

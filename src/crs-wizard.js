@@ -54,7 +54,10 @@ class Wizard extends HTMLElement {
         this.btnPrevious.addEventListener("click", this.previousHandler);
 
         setTimeout(() => {
-            requestAnimationFrame(() => this.gotoView(0));
+            requestAnimationFrame(() => {
+                this.gotoView(0);
+                this.dispatchEvent(new CustomEvent("ready"));
+            });
         }, 0);
     }
 
@@ -76,7 +79,7 @@ class Wizard extends HTMLElement {
     }
 
     gotoView(id) {
-        const target = this._body.querySelector(`[data-id="${id}"]`);
+        const target = this.body.querySelector(`[data-id="${id}"]`);
         if (target == null) return false;
 
         if (this._currentPage != null) {
